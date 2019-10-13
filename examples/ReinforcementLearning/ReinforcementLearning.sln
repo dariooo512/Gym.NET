@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.779
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearning", "ReinforcementLearning\ReinforcementLearning.csproj", "{51DDA8DE-8577-4B1F-8372-150D78C8E755}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.Rendering.Avalonia", "..\..\src\Gym.Rendering.Avalonia\Gym.Rendering.Avalonia.csproj", "{FBDA78D5-D7CE-49BE-9B6B-B11CCCC1A2FB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.Rendering.WinForm", "..\..\src\Gym.Rendering.WinForm\Gym.Rendering.WinForm.csproj", "{29182252-D5F6-40FB-8867-2D95EDED2F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReinforcementLearning.Runner.Gpu", "ReinforcementLearning.Runner.Gpu\ReinforcementLearning.Runner.Gpu.csproj", "{A34397B2-A7E5-41EB-9C2C-DBE155A232A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{29182252-D5F6-40FB-8867-2D95EDED2F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29182252-D5F6-40FB-8867-2D95EDED2F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29182252-D5F6-40FB-8867-2D95EDED2F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A34397B2-A7E5-41EB-9C2C-DBE155A232A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34397B2-A7E5-41EB-9C2C-DBE155A232A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34397B2-A7E5-41EB-9C2C-DBE155A232A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34397B2-A7E5-41EB-9C2C-DBE155A232A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
