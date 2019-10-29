@@ -23,8 +23,19 @@ namespace ReinforcementLearning {
             _configuration = configuration;
             _outputs = outputs;
             _dataBuilder = dataBuilder;
+            
+            if (CuDnnNetworkLayers.IsCudaSupportAvailable) {
+                _network = configuration.BuildCudaNeuralNetwork();
+            }
 
-            _network = configuration.BuildNeuralNetwork();
+            if (_network == null) {
+                _network = configuration.BuildNeuralNetwork();
+                return;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Cuda support available");
+            Console.ResetColor();
         }
 
         public void StartAsyncTraining(IConcurrentMemory<TData> memory, CancellationToken ct = default) {

@@ -13,6 +13,7 @@ namespace ReinforcementLearning.GameConfigurations {
         int Epochs { get; } // NN epochs for training
 
         INeuralNetwork BuildNeuralNetwork();
+        INeuralNetwork BuildCudaNeuralNetwork();
     }
 
     public interface IImageGameConfiguration : IGameConfiguration {

@@ -28,10 +28,14 @@ namespace ReinforcementLearning.Images.Runner {
         public int BatchSize => 100;
         public int Epochs => 10;
 
-        public INeuralNetwork BuildNeuralNetwork() =>
-            NetworkManager.NewSequential(TensorInfo.Image<Alpha8>(ScaledImageHeight, ScaledImageWidth),
-                NetworkLayers.Convolutional((10, 10), 40, ActivationType.ReLU),
-                NetworkLayers.FullyConnected(20, ActivationType.ReLU),
-                NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
+        public INeuralNetwork BuildNeuralNetwork() => NetworkManager.NewSequential(TensorInfo.Image<Alpha8>(ScaledImageHeight, ScaledImageWidth),
+            NetworkLayers.Convolutional((2, 2), 40, ActivationType.ReLU),
+            NetworkLayers.FullyConnected(20, ActivationType.ReLU),
+            NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
+
+        public INeuralNetwork BuildCudaNeuralNetwork() => NetworkManager.NewSequential(TensorInfo.Image<Alpha8>(ScaledImageHeight, ScaledImageWidth),
+            CuDnnNetworkLayers.Convolutional((2, 2), 40, ActivationType.ReLU),
+            CuDnnNetworkLayers.FullyConnected(20, ActivationType.ReLU),
+            CuDnnNetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }

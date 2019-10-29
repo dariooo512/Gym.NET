@@ -24,8 +24,14 @@ namespace ReinforcementLearning.Parameters.Runner {
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                NetworkLayers.FullyConnected(50, ActivationType.ReLU),
-                NetworkLayers.FullyConnected(20, ActivationType.ReLU),
-                NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
+            NetworkLayers.FullyConnected(50, ActivationType.ReLU),
+            NetworkLayers.FullyConnected(20, ActivationType.ReLU),
+            NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
+
+        public INeuralNetwork BuildCudaNeuralNetwork()=>
+            NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength* MemoryStates),
+            CuDnnNetworkLayers.FullyConnected(50, ActivationType.ReLU),
+            CuDnnNetworkLayers.FullyConnected(20, ActivationType.ReLU),
+            CuDnnNetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }
