@@ -55,6 +55,10 @@ namespace ReinforcementLearning {
         }
 
         public virtual Imager Crop(FramePadding framePadding) {
+            if (framePadding == null) {
+                return this;
+            }
+
             Parallel.For(0, _images.Length, index => {
                 var image = _images[index];
                 var widthToCrop = image.Width - framePadding.Left - framePadding.Right;
