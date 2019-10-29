@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29418.71
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearning", "ReinforcementLearning\ReinforcementLearning.csproj", "{51DDA8DE-8577-4B1F-8372-150D78C8E755}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gym.Rendering.WinForm", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearning.Parameters.Runner", "ReinforcementLearning.Parameters.Runner\ReinforcementLearning.Parameters.Runner.csproj", "{1FA2977C-5502-486C-8FCF-8E130C9F5EFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearning.Images.Runner", "ReinforcementLearning.Images.Runner\ReinforcementLearning.Images.Runner.csproj", "{97A4260C-9522-44B7-96A8-8BF52FE74EC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReinforcementLearning.Images.Runner", "ReinforcementLearning.Images.Runner\ReinforcementLearning.Images.Runner.csproj", "{D55F0566-8D49-4DF7-A36D-43EC88C71F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{1FA2977C-5502-486C-8FCF-8E130C9F5EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA2977C-5502-486C-8FCF-8E130C9F5EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA2977C-5502-486C-8FCF-8E130C9F5EFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97A4260C-9522-44B7-96A8-8BF52FE74EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97A4260C-9522-44B7-96A8-8BF52FE74EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97A4260C-9522-44B7-96A8-8BF52FE74EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97A4260C-9522-44B7-96A8-8BF52FE74EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D55F0566-8D49-4DF7-A36D-43EC88C71F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55F0566-8D49-4DF7-A36D-43EC88C71F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55F0566-8D49-4DF7-A36D-43EC88C71F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55F0566-8D49-4DF7-A36D-43EC88C71F12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
