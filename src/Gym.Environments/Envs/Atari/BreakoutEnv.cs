@@ -193,6 +193,27 @@ namespace Gym.Environments.Envs.Atari {
             public void Bounce(float diff) {
                 _direction = (180 - _direction) % 360;
                 _direction -= diff;
+
+                // avoiding super flat angles on horizontal axis
+                const int minAngle = 10;
+                if (_direction < 90 && _direction - 90 > -minAngle) {
+                    _direction = 90 - minAngle;
+                    return;
+                }
+
+                if (_direction > 90 && _direction - 90 < minAngle) {
+                    _direction = 90 + minAngle;
+                    return;
+                }
+
+                if (_direction < 270 && _direction - 270 > -minAngle) {
+                    _direction = 270 - minAngle;
+                    return;
+                }
+
+                if (_direction > 270 && _direction - 270 < minAngle) {
+                    _direction = 270 + minAngle;
+                }
             }
 
             public bool Update() {
@@ -243,7 +264,7 @@ namespace Gym.Environments.Envs.Atari {
             public Paddle(Rgba32 color, int screenWidth, int screenHeight) {
                 Color = color;
                 _screenWidth = screenWidth;
-                _x = (screenHeight - Width) / 2;
+                _x = (screenWidth - Width) / 2;
                 _y = screenHeight - Height;
             }
 
