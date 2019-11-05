@@ -9,26 +9,32 @@ using Gym.Environments;
 using Gym.Threading;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using Image = SixLabors.ImageSharp.Image;
 
-namespace Gym.Rendering.WinForm.Rendering {
+namespace Gym.Rendering.WinForm {
     /// <summary>
     ///     A form with PictureBox that accepts <see cref="IImageCanvas"/> and renders it on it. Start <see cref="Viewer"/> by calling <see cref="Run"/>
     /// </summary>
-    public partial class WinFormViewer : Form, IEnvViewer {
+    public partial class WinFormEnvViewer : Form, IEnvViewer {
         private int _lastSize = 0;
         private readonly ManualResetEventSlim _ready = new ManualResetEventSlim();
 
         /// <summary>
-        ///     Starts a <see cref="WinFormViewer"/> in seperate thread.
+        ///     A delegate that creates a <see cref="WinFormEnvViewer"/> based on given parameters.
+        /// </summary>
+        public static IEnvironmentViewerFactoryDelegate Factory => Run;
+
+        /// <summary>
+        ///     Starts a <see cref="WinFormEnvViewer"/> in seperate thread.
         /// </summary>
         /// <param name="height">The height of the form</param>
         /// <param name="width">The width of the form</param>
         /// <param name="title">The title of the form, also mentioned in the thread name.</param>
         public static IEnvViewer Run(int width, int height, string title = null) {
-            WinFormViewer v = null;
+            WinFormEnvViewer v = null;
             using (var me = new ManualResetEventSlim()) {
                 var thread = new Thread(() => {
-                    v = new WinFormViewer(width + 12, height + 12, title);
+                    v = new WinFormEnvViewer(width + 12, height + 12, title);
                     me.Set();
                     v.ShowDialog();
                 });
@@ -44,7 +50,7 @@ namespace Gym.Rendering.WinForm.Rendering {
             return v;
         }
 
-        public WinFormViewer(int width, int height, string title = null) {
+        public WinFormEnvViewer(int width, int height, string title = null) {
             InitializeComponent();
             Height = height;
             Width = width;
@@ -56,7 +62,7 @@ namespace Gym.Rendering.WinForm.Rendering {
         ///     Renders this canvas onto <see cref="PictureFrame"/>.
         /// </summary>
         /// <param name="canvas">Canvas painted from <see cref="NGraphics"/></param>
-        public void Render(Image<Rgba32> canvas) {
+        public void Render(Image canvas) {
             if (InvokeRequired) {
                 Invoke(new Action(() => Render(canvas)));
                 return;
@@ -74,7 +80,7 @@ namespace Gym.Rendering.WinForm.Rendering {
         ///     Renders this canvas onto <see cref="PictureFrame"/>.
         /// </summary>
         /// <param name="canvas">Canvas painted from <see cref="NGraphics"/></param>
-        public void RenderAsync(Image<Rgba32> canvas) {
+        public void RenderAsync(Image canvas) {
             if (InvokeRequired) {
                 BeginInvoke(new Action(() => RenderAsync(canvas)));
                 return;
@@ -101,26 +107,6 @@ namespace Gym.Rendering.WinForm.Rendering {
                 PictureFrame.Image = null;
                 img.Dispose();
             }
-        }
-
-        /// <summary>
-        ///     Performs a rendering test.
-        /// </summary>
-        /// <param name="offset"></param>
-        public void TestRendering(int offset = 0) {
-            //IImageCanvas canvas = Platforms.Current.CreateImageCanvas(new NGraphics.Size(Height, Width), scale: 1);
-            //var skyBrush = new LinearGradientBrush(Point.Zero, Point.OneY, Colors.Blue, Colors.White);
-            //canvas.FillRectangle(new Rect(canvas.Size), skyBrush);
-            //canvas.FillEllipse(10, 10, 30 + offset, 30 + offset, Colors.Yellow);
-            //canvas.FillRectangle(50, 60, 60, 40, Colors.LightGray);
-            //canvas.FillPath(new PathOp[] {
-            //    new MoveTo(40, 60),
-            //    new LineTo(120, 60),
-            //    new LineTo(80, 30),
-            //    new ClosePath()
-            //}, Colors.Gray);
-            //
-            //Render(canvas);
         }
 
         protected override void OnClosing(CancelEventArgs e) {

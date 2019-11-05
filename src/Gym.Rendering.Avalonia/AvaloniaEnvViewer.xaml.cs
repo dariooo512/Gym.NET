@@ -4,13 +4,15 @@ using System.IO;
 using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Gym.Environments;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using Image = Avalonia.Controls.Image;
+using Image = SixLabors.ImageSharp.Image;
+using AVImage = Avalonia.Controls.Image;
 
 namespace Gym.Rendering.Avalonia {
     public class AvaloniaEnvViewer : Window, IEnvViewer {
@@ -36,12 +38,17 @@ namespace Gym.Rendering.Avalonia {
             Close();
         }
 
+        /// <summary>
+        ///     A delegate that creates a <see cref="AvaloniaEnvViewer"/> based on given parameters.
+        /// </summary>
+        public static IEnvironmentViewerFactoryDelegate Factory => Run;
+
         public static IEnvViewer Run(int width, int height, string title = null) {
             _width = width;
             _height = height;
             _title = title;
 
-            var thread = new Thread(() => { Program.BuildAvaloniaApp().Start(BuildViewer, new string[] { }); });
+            var thread = new Thread(() => { BuildAvaloniaApp().Start(BuildViewer, Array.Empty<string>()); });
             thread.Start();
             thread.Name = $"{nameof(AvaloniaEnvViewer)} {(string.IsNullOrEmpty(title) ? "" : $"-{title}")}";
 
@@ -53,7 +60,7 @@ namespace Gym.Rendering.Avalonia {
             return _viewer;
         }
 
-        public void Render(Image<Rgba32> img) {
+        public void Render(Image img) {
             if (!Dispatcher.UIThread.CheckAccess()) {
                 RenderResetEvent.Reset();
                 Dispatcher.UIThread.InvokeAsync(() => Render(img), DispatcherPriority.MaxValue);
@@ -65,7 +72,7 @@ namespace Gym.Rendering.Avalonia {
             using (var ms = new MemoryStream()) {
                 img.SaveAsBmp(ms);
                 ms.Seek(0, SeekOrigin.Begin);
-                Content = new Image {
+                Content = new AVImage {
                     Source = new Bitmap(ms)
                 };
             }
@@ -85,5 +92,10 @@ namespace Gym.Rendering.Avalonia {
             base.OnOpened(e);
             ReadyResetEvent.Set();
         }
+
+        protected static AppBuilder BuildAvaloniaApp()
+            => AppBuilder.Configure<App>()
+                .UsePlatformDetect()
+                .LogToDebug();
     }
 }

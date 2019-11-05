@@ -16,7 +16,7 @@ using PointF = SixLabors.Primitives.PointF;
 
 namespace Gym.Environments.Envs.Classic {
     public class CartPoleEnv : Env {
-        private readonly IEnvironmentViewerFactoryDelegate _viewerFactory;
+        private IEnvironmentViewerFactoryDelegate _viewerFactory;
         private IEnvViewer _viewer;
 
         //constants
@@ -39,19 +39,24 @@ namespace Gym.Environments.Envs.Classic {
         private NDArray state;
         private int steps_beyond_done = -1;
 
-        public CartPoleEnv(IEnvironmentViewerFactoryDelegate viewerFactory) {
+        public CartPoleEnv(IEnvironmentViewerFactoryDelegate viewerFactory, NumPyRandom randomState) {
             _viewerFactory = viewerFactory;
             // Angle limit set to 2 * theta_threshold_radians so failing observation is still within bounds  
             var high = np.array(x_threshold * 2, float.MaxValue, theta_threshold_radians * 2, float.MaxValue);
             ActionSpace = new Discrete(2);
             ObservationSpace = new Box(-high, high, np.float32);
-            random = np.random.RandomState();
+            random = randomState ?? np.random.RandomState();
 
             Metadata = new Dict("render.modes", new[] {"human", "rgb_array"}, "video.frames_per_second", 50);
         }
 
-        public CartPoleEnv([NotNull] IEnvViewer viewer) : this((IEnvironmentViewerFactoryDelegate)null) {
+        public CartPoleEnv(IEnvironmentViewerFactoryDelegate viewerFactory) : this(viewerFactory, null) {}
+
+        public CartPoleEnv([NotNull] IEnvViewer viewer) : this((IEnvironmentViewerFactoryDelegate) null) {
             _viewer = viewer ?? throw new ArgumentNullException(nameof(viewer));
+        }
+
+        public CartPoleEnv() : this(NullEnvViewer.Factory) {
         }
 
         public override NDArray Reset() {
@@ -60,27 +65,25 @@ namespace Gym.Environments.Envs.Classic {
             return np.array(state);
         }
 
-        public override Image<Rgba32> Render(string mode = "human") {
-            float b;
-            float t;
-            float r;
-            float l;
-            var screen_width = 600;
-            var screen_height = 400;
-            var world_width = x_threshold * 2;
-            var scale = screen_width / world_width;
-            var carty = 300;
-            var polewidth = 10.0f;
-            var poleheight = scale * (2 * length);
-            var cartwidth = 50.0f;
-            var cartheight = 30.0f;
+        public override Image Render(string mode = "human") {
+            float b, t, r, l;
+            const int screen_width = 600;
+            const int screen_height = 400;
+            const float world_width = x_threshold * 2;
+            const float scale = screen_width / world_width;
+            const int carty = 300;
+            const float polewidth = 10.0f;
+            const float poleheight = scale * (2 * length);
+            const float cartwidth = 50.0f;
+            const float cartheight = 30.0f;
+
 
             if (_viewer == null)
                 lock (this) {
                     //to prevent double initalization.
                     if (_viewer == null) {
                         if (_viewerFactory == null)
-                            throw new ArgumentNullException(nameof(_viewerFactory), $"No {nameof(_viewerFactory)} have been set");
+                            _viewerFactory = NullEnvViewer.Factory;
                         _viewer = _viewerFactory(screen_width, screen_height, "cartpole-v1");
                     }
                 }
@@ -102,7 +105,7 @@ namespace Gym.Environments.Envs.Classic {
             var cart = new RectangularPolygon(-cartwidth / 2, carty - cartheight / 2, cartwidth, cartheight);
             var draw = new List<(IPath, Rgba32)>();
 
-            if (!Equals(state, null)) {
+            if (!(state is null)) {
                 var center_x = (float) (state.GetDouble(0) * scale + screen_width / 2.0f);
                 //no y cuz it doesnt change.
                 var cbounds = circle.Bounds;
