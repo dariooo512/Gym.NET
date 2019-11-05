@@ -15,18 +15,18 @@ namespace ReinforcementLearning.Images.Runner {
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 2;
-        public ImageStackLayout ImageStackLayout => ImageStackLayout.Vertical;
+        public ImageStackLayout ImageStackLayout => ImageStackLayout.Horizontal;
         public int MemoryCapacity => 10;
         public int SkippedFrames => 3;
         public int FrameWidth => 400;
         public int FrameHeight => 600;
-        public int ScaledImageWidth => 40;
-        public int ScaledImageHeight => 40;
+        public int ScaledImageWidth => 60;
+        public int ScaledImageHeight => 60;
         public FramePadding FramePadding => null;
         public float StartingEpsilon => 1F;
-        public int Episodes => 2000;
-        public int BatchSize => 100;
-        public int Epochs => 10;
+        public int Episodes => 500;
+        public int BatchSize => 50;
+        public int Epochs => 5;
 
         public INeuralNetwork BuildNeuralNetwork() => NetworkManager.NewSequential(TensorInfo.Image<Alpha8>(ScaledImageHeight, ScaledImageWidth),
             NetworkLayers.Convolutional((2, 2), 40, ActivationType.ReLU),
