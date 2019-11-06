@@ -82,7 +82,7 @@ namespace Gym.Environments.Envs.Atari {
             return new Step(np.array(0 /*TODO*/), reward, done, null);
         }
 
-        public override Image<Rgba32> Render(string mode = "human") {
+        public override Image Render(string mode = "human") {
             if (_viewer == null)
                 lock (this) {
                     //to prevent double initalization.

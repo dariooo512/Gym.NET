@@ -1,7 +1,7 @@
 ﻿using System;
 using Gym.Environments.Envs.Atari;
 using Gym.Envs;
-using Gym.Rendering.WinForm.Rendering;
+using Gym.Rendering.WinForm;
 using NeuralNetworkNET.APIs;
 using NeuralNetworkNET.APIs.Enums;
 using NeuralNetworkNET.APIs.Interfaces;
@@ -11,7 +11,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace ReinforcementLearning.Images.Runner {
     public sealed class BreakoutConfiguration : IImageGameConfiguration {
-        private readonly Lazy<IEnv> _env = new Lazy<IEnv>(() => new BreakoutEnv(WinFormViewer.Run));
+        private readonly Lazy<IEnv> _env = new Lazy<IEnv>(() => new BreakoutEnv(WinFormEnvViewer.Run));
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 2;
