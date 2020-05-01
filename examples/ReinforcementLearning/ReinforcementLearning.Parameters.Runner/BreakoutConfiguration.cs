@@ -19,7 +19,7 @@ namespace ReinforcementLearning.Parameters.Runner
         public int MemoryStates => 2;
         public int MemoryCapacity => 100;
         public int SkippedFrames => 2;
-        public int ParametersLength => 4; // 
+        public int ParametersLength => 3;
         public float StartingEpsilon => 1F;
         public int Episodes => 2000;
         public int BatchSize => 100;
@@ -27,8 +27,8 @@ namespace ReinforcementLearning.Parameters.Runner
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                NetworkLayers.FullyConnected(50, ActivationType.ReLU),
                 NetworkLayers.FullyConnected(20, ActivationType.ReLU),
+                NetworkLayers.FullyConnected(5, ActivationType.ReLU),
                 NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
 
         public INeuralNetwork BuildCudaNeuralNetwork() =>

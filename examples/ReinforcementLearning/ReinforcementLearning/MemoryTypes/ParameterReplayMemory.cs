@@ -20,7 +20,7 @@ namespace ReinforcementLearning.MemoryTypes {
             var data = currentStep
                 .Observation
                 .GetData()
-                .Cast<double>()
+                .Cast<object>()
                 .Select(x => (float) x)
                 .ToArray();
 
