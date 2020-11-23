@@ -14,13 +14,13 @@ namespace ReinforcementLearning.Parameters.Runner {
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 4;
-        public int MemoryCapacity => 100;
+        public int MemoryCapacity => 50;
         public int SkippedFrames => 0;
         public int ParametersLength => 4; // x, x_dot, theta, theta_dot
         public float StartingEpsilon => .7F;
         public int Episodes => 2000;
         public int BatchSize => 100;
-        public int Epochs => 10;
+        public int Epochs => 5;
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
