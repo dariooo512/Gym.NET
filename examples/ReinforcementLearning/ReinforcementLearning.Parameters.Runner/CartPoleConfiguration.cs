@@ -18,7 +18,7 @@ namespace ReinforcementLearning.Parameters.Runner {
         public int SkippedFrames => 0;
         public int ParametersLength => 4; // x, x_dot, theta, theta_dot
         public float StartingEpsilon => .7F;
-        public int Episodes => 2000;
+        public int Episodes => 1000;
         public int BatchSize => 100;
         public int Epochs => 5;
 
