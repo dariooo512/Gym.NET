@@ -17,15 +17,15 @@ namespace ReinforcementLearning.Parameters.Runner {
         public int MemoryCapacity => 100;
         public int SkippedFrames => 0;
         public int ParametersLength => 4; // x, x_dot, theta, theta_dot
-        public float StartingEpsilon => 1F;
+        public float StartingEpsilon => .7F;
         public int Episodes => 2000;
         public int BatchSize => 100;
         public int Epochs => 10;
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                NetworkLayers.FullyConnected(50, ActivationType.ReLU),
-                NetworkLayers.FullyConnected(20, ActivationType.ReLU),
+                NetworkLayers.FullyConnected(10, ActivationType.ReLU),
+                NetworkLayers.FullyConnected(5, ActivationType.ReLU),
                 NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }
