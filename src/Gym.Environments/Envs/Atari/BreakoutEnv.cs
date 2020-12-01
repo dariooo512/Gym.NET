@@ -93,7 +93,7 @@ namespace Gym.Environments.Envs.Atari
             var ballXPosition = _ballObj.X / (ScreenWidth - _ballObj.Polygon.Width);
             var ballYPosition = _ballObj.Y / (ScreenHeight - _ballObj.Polygon.Height);
             var ballDirection = _ballObj.Direction / 360;
-            
+
             return new Step(np.array(paddleXPosition, ballXPosition, ballYPosition, ballDirection), reward, done, null);
         }
 
@@ -200,7 +200,7 @@ namespace Gym.Environments.Envs.Atari
             public readonly Rgba32 Color;
             public float X = 0;
             public float Y = 180;
-            public float Direction = 200; // Direction of ball (in degrees)
+            public float Direction; // Direction of ball (in degrees)
             private readonly int _screenWidth;
             private readonly int _screenHeight;
 
@@ -212,9 +212,12 @@ namespace Gym.Environments.Envs.Atari
 
             public Ball(Rgba32 color, int screenWidth, int screenHeight)
             {
+                var random = new Random();
                 Color = color;
                 _screenWidth = screenWidth;
                 _screenHeight = screenHeight;
+                X = random.Next(0, screenWidth);
+                Direction = random.Next(100, 260);
             }
 
             // The 'diff' lets you try to bounce the ball left or right
@@ -225,7 +228,7 @@ namespace Gym.Environments.Envs.Atari
                 Direction -= diff;
 
                 // avoiding super flat angles on horizontal axis
-                const int minAngle = 10;
+                const int minAngle = 30;
                 if (Direction < 90 && Direction - 90 > -minAngle)
                 {
                     Direction = 90 - minAngle;
