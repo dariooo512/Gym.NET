@@ -16,10 +16,10 @@ namespace ReinforcementLearning.Parameters.Runner
         private readonly Lazy<IEnv> _env = new Lazy<IEnv>(() => new BreakoutEnv(AvaloniaEnvViewer.Run));
 
         public IEnv EnvInstance => _env.Value;
-        public int MemoryStates => 2;
-        public int MemoryCapacity => 100;
-        public int SkippedFrames => 2;
-        public int ParametersLength => 3;
+        public int MemoryStates => 1;
+        public int MemoryCapacity => 20;
+        public int SkippedFrames => 0;
+        public int ParametersLength => 4; // paddleXPosition, ballXPosition, ballYPosition, ballDirection
         public float StartingEpsilon => 1F;
         public int Episodes => 2000;
         public int BatchSize => 100;
@@ -28,13 +28,13 @@ namespace ReinforcementLearning.Parameters.Runner
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
                 NetworkLayers.FullyConnected(20, ActivationType.ReLU),
-                NetworkLayers.FullyConnected(5, ActivationType.ReLU),
+                NetworkLayers.FullyConnected(10, ActivationType.ReLU),
                 NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
 
         public INeuralNetwork BuildCudaNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                CuDnnNetworkLayers.FullyConnected(50, ActivationType.ReLU),
                 CuDnnNetworkLayers.FullyConnected(20, ActivationType.ReLU),
+                CuDnnNetworkLayers.FullyConnected(10, ActivationType.ReLU),
                 CuDnnNetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }

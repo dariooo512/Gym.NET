@@ -92,8 +92,9 @@ namespace Gym.Environments.Envs.Atari
             var paddleXPosition = paddlePolygon.X / (ScreenWidth - paddlePolygon.Width);
             var ballXPosition = _ballObj.X / (ScreenWidth - _ballObj.Polygon.Width);
             var ballYPosition = _ballObj.Y / (ScreenHeight - _ballObj.Polygon.Height);
+            var ballDirection = _ballObj.Direction / 360;
             
-            return new Step(np.array(paddleXPosition, ballXPosition, ballYPosition), reward, done, null);
+            return new Step(np.array(paddleXPosition, ballXPosition, ballYPosition, ballDirection), reward, done, null);
         }
 
         public override Image Render(string mode = "human")
@@ -199,15 +200,15 @@ namespace Gym.Environments.Envs.Atari
             public readonly Rgba32 Color;
             public float X = 0;
             public float Y = 180;
+            public float Direction = 200; // Direction of ball (in degrees)
             private readonly int _screenWidth;
             private readonly int _screenHeight;
 
             public RectangularPolygon Polygon => new RectangularPolygon(X, Y, Width, Height);
 
             private const int Speed = 10; // Speed in pixels per cycle
-            private readonly int Width = 23;
+            private readonly int Width = 8;
             private readonly int Height = 15;
-            private float _direction = 200; //# Direction of ball (in degrees)
 
             public Ball(Rgba32 color, int screenWidth, int screenHeight)
             {
@@ -220,39 +221,39 @@ namespace Gym.Environments.Envs.Atari
             // depending where on the paddle you hit it. 0 for walls
             public void Bounce(float diff)
             {
-                _direction = (180 - _direction) % 360;
-                _direction -= diff;
+                Direction = (180 - Direction) % 360;
+                Direction -= diff;
 
                 // avoiding super flat angles on horizontal axis
                 const int minAngle = 10;
-                if (_direction < 90 && _direction - 90 > -minAngle)
+                if (Direction < 90 && Direction - 90 > -minAngle)
                 {
-                    _direction = 90 - minAngle;
+                    Direction = 90 - minAngle;
                     return;
                 }
 
-                if (_direction > 90 && _direction - 90 < minAngle)
+                if (Direction > 90 && Direction - 90 < minAngle)
                 {
-                    _direction = 90 + minAngle;
+                    Direction = 90 + minAngle;
                     return;
                 }
 
-                if (_direction < 270 && _direction - 270 > -minAngle)
+                if (Direction < 270 && Direction - 270 > -minAngle)
                 {
-                    _direction = 270 - minAngle;
+                    Direction = 270 - minAngle;
                     return;
                 }
 
-                if (_direction > 270 && _direction - 270 < minAngle)
+                if (Direction > 270 && Direction - 270 < minAngle)
                 {
-                    _direction = 270 + minAngle;
+                    Direction = 270 + minAngle;
                 }
             }
 
             public bool Update()
             {
                 // Sine and Cosine work in degrees, so we have to convert them
-                var direction_radians = ConvertToRadians(_direction);
+                var direction_radians = ConvertToRadians(Direction);
 
                 // Change the position (x and y) according to the speed and direction
                 X += (float) (Speed * Math.Sin(direction_radians));
@@ -268,14 +269,14 @@ namespace Gym.Environments.Envs.Atari
                 // Do we bounce of the left side of the screen?
                 if (X <= 0)
                 {
-                    _direction = (360 - _direction) % 360;
+                    Direction = (360 - Direction) % 360;
                     X = 1;
                 }
 
                 // Do we bounce of the right side of the screen?
                 if (X > _screenWidth - Width)
                 {
-                    _direction = (360 - _direction) % 360;
+                    Direction = (360 - Direction) % 360;
                     X = _screenWidth - Width - 1;
                 }
 

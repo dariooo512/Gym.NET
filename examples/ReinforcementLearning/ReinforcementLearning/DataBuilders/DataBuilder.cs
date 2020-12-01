@@ -28,12 +28,11 @@ namespace ReinforcementLearning.DataBuilders {
             }
 
             var episodes = memory.Episodes;
-
             var observations = episodes
-                .SelectMany(x => x.Observations.Take(x.Observations.Length * 2 / 3))
+                .SelectMany(x => x.Observations)
                 .ToList();
 
-            Console.WriteLine($"Training on best {episodes.Count} episodes out of {memory.Episodes.Count}. {observations.Count} observations");
+            // Console.WriteLine($"Training on best {episodes.Count} episodes out of {memory.Episodes.Count}. {observations.Count} observations");
 
             return DatasetLoader.Training(BuildRawData(observations), Configuration.BatchSize);
         }

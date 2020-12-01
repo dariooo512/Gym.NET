@@ -77,11 +77,8 @@ namespace ReinforcementLearning {
                 TrackBatchProgress,
                 TrainingProgress);
 
-            Console.WriteLine("\nTraining session completed, moving to next one");
-
             var backupName = $"backup-network-{DateTime.Now:yyyyMMdd-HH-mm-ss-fff}.modl";
             _network.Save(File.Create(backupName));
-            Console.WriteLine($"Backup model {backupName} saved");
             _network = clonedInstance;
         }
 
