@@ -17,24 +17,24 @@ namespace ReinforcementLearning.Parameters.Runner
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 1;
-        public int MemoryCapacity => 20;
+        public int MemoryCapacity => 25;
         public int SkippedFrames => 0;
         public int ParametersLength => 4; // paddleXPosition, ballXPosition, ballYPosition, ballDirection
-        public float StartingEpsilon => 1F;
-        public int Episodes => 2000;
-        public int BatchSize => 100;
-        public int Epochs => 10;
+        public float StartingEpsilon => .9F;
+        public int Episodes => 1000;
+        public int BatchSize => 50;
+        public int Epochs => 6;
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                NetworkLayers.FullyConnected(20, ActivationType.ReLU),
-                NetworkLayers.FullyConnected(10, ActivationType.ReLU),
+                NetworkLayers.FullyConnected(10, ActivationType.LeakyReLU),
+                NetworkLayers.FullyConnected(10, ActivationType.Sigmoid),
                 NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
 
         public INeuralNetwork BuildCudaNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-                CuDnnNetworkLayers.FullyConnected(20, ActivationType.ReLU),
-                CuDnnNetworkLayers.FullyConnected(10, ActivationType.ReLU),
+                CuDnnNetworkLayers.FullyConnected(10, ActivationType.LeakyReLU),
+                CuDnnNetworkLayers.FullyConnected(10, ActivationType.Sigmoid),
                 CuDnnNetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }
