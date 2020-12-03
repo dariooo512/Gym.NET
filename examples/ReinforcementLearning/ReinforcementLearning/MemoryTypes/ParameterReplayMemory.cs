@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Gym.Observations;
+using NeuralNetworkNET.Extensions;
 using SixLabors.ImageSharp;
 
 namespace ReinforcementLearning.MemoryTypes {
@@ -20,8 +21,8 @@ namespace ReinforcementLearning.MemoryTypes {
             var data = currentStep
                 .Observation
                 .GetData()
-                .Cast<object>()
-                .Select(x => (float) x)
+                .Cast<double>()
+                .Select(x => x.ToApproximatedFloat())
                 .ToArray();
 
             if (data.Length != _parameterLength) {
