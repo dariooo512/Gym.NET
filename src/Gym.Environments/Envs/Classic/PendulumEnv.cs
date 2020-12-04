@@ -21,12 +21,12 @@ namespace Gym.Environments.Envs.Classic {
 
         //constants
         private const float max_speed = 8;
-        private const float max_torque = 1.0f;
-        private const float dt = 0.1f;
+        private const float max_torque = 2.0f;
+        private const float dt = 0.05f;
         private const float g = 10.0f;
         private const float m = 1;
         private const float l = 1;
-        private const float episode_steps = 200;
+        private const float episode_steps = 100;
         private float current_step = 0;
 
         //properties
