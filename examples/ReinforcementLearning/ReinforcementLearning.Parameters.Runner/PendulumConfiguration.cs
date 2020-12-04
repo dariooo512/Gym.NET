@@ -9,14 +9,14 @@ using NeuralNetworkNET.APIs.Structs;
 using ReinforcementLearning.GameConfigurations;
 
 namespace ReinforcementLearning.Parameters.Runner {
-    public sealed class CartPoleConfiguration : IParametersGameConfiguration {
-        private readonly Lazy<IEnv> _env = new Lazy<IEnv>(() => new CartPoleEnv(AvaloniaEnvViewer.Run));
+    public sealed class PendulumConfiguration : IParametersGameConfiguration {
+        private readonly Lazy<IEnv> _env = new Lazy<IEnv>(() => new PendulumEnv(AvaloniaEnvViewer.Run));
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 1;
         public int MemoryCapacity => 25;
         public int SkippedFrames => 0;
-        public int ParametersLength => 4; // x, x_dot, theta, theta_dot
+        public int ParametersLength => 2; // newth, newthdot
         public float StartingEpsilon => .9F;
         public int Episodes => 500;
         public int BatchSize => 100;

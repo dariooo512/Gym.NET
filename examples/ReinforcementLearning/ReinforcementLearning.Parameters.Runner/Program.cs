@@ -3,7 +3,7 @@
 namespace ReinforcementLearning.Parameters.Runner {
     class Program {
         static void Main(string[] args) {
-            new ParameterGameEngine(new BreakoutConfiguration()).Play();
+            new ParameterGameEngine(new PendulumConfiguration()).Play();
         }
     }
 }

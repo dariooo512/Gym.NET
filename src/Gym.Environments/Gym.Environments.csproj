@@ -27,6 +27,9 @@
     <None Remove="Gym.csproj.DotSettings" />
     <None Remove="Gym.Environments.csproj.DotSettings" />
     <None Remove="Gymg.csproj.DotSettings" />
+    <None Update="Envs\Classic\assets\clockwise.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

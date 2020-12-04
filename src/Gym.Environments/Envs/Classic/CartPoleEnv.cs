@@ -50,7 +50,7 @@ namespace Gym.Environments.Envs.Classic {
             Metadata = new Dict("render.modes", new[] {"human", "rgb_array"}, "video.frames_per_second", 50);
         }
 
-        public CartPoleEnv(IEnvironmentViewerFactoryDelegate viewerFactory) : this(viewerFactory, null) {}
+        public CartPoleEnv(IEnvironmentViewerFactoryDelegate viewerFactory) : this(viewerFactory, null) { }
 
         public CartPoleEnv([NotNull] IEnvViewer viewer) : this((IEnvironmentViewerFactoryDelegate) null) {
             _viewer = viewer ?? throw new ArgumentNullException(nameof(viewer));
