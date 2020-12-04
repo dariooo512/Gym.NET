@@ -21,8 +21,8 @@ namespace ReinforcementLearning.MemoryTypes {
             var data = currentStep
                 .Observation
                 .GetData()
-                .Cast<double>()
-                .Select(x => x.ToApproximatedFloat())
+                .Cast<object>()
+                .Select(x => ((double)x).ToApproximatedFloat())
                 .ToArray();
 
             if (data.Length != _parameterLength) {

@@ -14,24 +14,24 @@ namespace ReinforcementLearning.Parameters.Runner {
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 1;
-        public int MemoryCapacity => 25;
+        public int MemoryCapacity => 10;
         public int SkippedFrames => 0;
-        public int ParametersLength => 2; // newth, newthdot
+        public int ParametersLength => 3; // cos, sin, acceleration
         public float StartingEpsilon => .9F;
         public int Episodes => 500;
-        public int BatchSize => 100;
-        public int Epochs => 15;
+        public int BatchSize => 1000;
+        public int Epochs => 10;
 
         public INeuralNetwork BuildNeuralNetwork() =>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-            NetworkLayers.FullyConnected(20, ActivationType.ReLU),
-            NetworkLayers.FullyConnected(5, ActivationType.ReLU),
+            NetworkLayers.FullyConnected(20, ActivationType.Sigmoid),
+            NetworkLayers.FullyConnected(10, ActivationType.Sigmoid),
             NetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
 
         public INeuralNetwork BuildCudaNeuralNetwork()=>
             NetworkManager.NewSequential(TensorInfo.Linear(ParametersLength * MemoryStates),
-            CuDnnNetworkLayers.FullyConnected(20, ActivationType.ReLU),
-            CuDnnNetworkLayers.FullyConnected(5, ActivationType.ReLU),
+            CuDnnNetworkLayers.FullyConnected(20, ActivationType.Sigmoid),
+            CuDnnNetworkLayers.FullyConnected(10, ActivationType.Sigmoid),
             CuDnnNetworkLayers.Softmax(EnvInstance.ActionSpace.Shape.Size));
     }
 }

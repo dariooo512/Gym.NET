@@ -32,7 +32,7 @@ namespace Gym.Environments.Envs.Classic {
         //properties
         private NumPyRandom random;
         private NDArray state;
-        private double last_u;
+        private int last_u;
 
         public PendulumEnv(IEnvironmentViewerFactoryDelegate viewerFactory, NumPyRandom randomState) {
             _viewerFactory = viewerFactory;
@@ -65,9 +65,10 @@ namespace Gym.Environments.Envs.Classic {
 
 
             var force = action == 1 ? max_torque : -max_torque;
-            // var force = max_torque;
+            // var force = max_torque*5;
+            // var force = 0;
 
-            last_u = th; // for rendering
+            last_u = action; // for rendering
             var reward = -(float) (Math.Pow(angle_normalize(th), 2) + .1 * Math.Pow(thdot, 2) + .001 * (Math.Pow(force, 2)));
 
             double newthdot = thdot + (-3 * g / (2 * l) * np.sin(th + np.pi) + 3 / (m * Math.Pow(l, 2)) * force) * dt;
@@ -75,7 +76,15 @@ namespace Gym.Environments.Envs.Classic {
             newthdot = np.clip(newthdot, -max_speed, max_speed);
 
             state = np.array(newth, newthdot);
-            return new Step(state, reward, current_step > episode_steps, null);
+            var aaaaaa = get_obs(state);
+
+            // reward = (float)aaaaaa.GetDouble(0);
+            
+            return new Step(get_obs(state), reward, current_step > episode_steps, null);
+        }
+        
+        private NDArray get_obs(NDArray ndArray) {
+            return np.array(new double[] {np.cos(ndArray.GetDouble(0)), np.sin(ndArray.GetDouble(0)), ndArray.GetDouble(1)});
         }
 
         readonly Image clockwiseImage = Image.Load("./Envs/Classic/assets/clockwise.png");
@@ -105,14 +114,14 @@ namespace Gym.Environments.Envs.Classic {
             var draw = new List<(IPath, Rgba32)>();
             var rodStart = new EllipsePolygon(center_x, center_y, 20, 20);
             var rodEnd = new EllipsePolygon(center_x - 100, center_y, 20, 20);
-            var rodStick = new RectangularPolygon(center_x, center_y-10, -100, 20);
+            var rodStick = new RectangularPolygon(center_x, center_y - 10, -100, 20);
             var rod = new ComplexPolygon(rodStart, rodEnd, rodStick);
             draw.Add((rod.Transform(Matrix3x2.CreateRotation((float) ((float) state.GetDouble(0) + np.pi / 2), center)), new Rgba32(211, 110, 109)));
             draw.Add((new EllipsePolygon(center_x, center_y, 10, 10), Rgba32.Black));
 
             clockwiseImage.Mutate(x => {
                 x.Resize(clockwiseImage_x, clockwiseImage_y);
-                if (last_u > state.GetDouble(0)) {
+                if (last_u ==1) {
                     x.Flip(FlipMode.Horizontal);
                 }
             });
