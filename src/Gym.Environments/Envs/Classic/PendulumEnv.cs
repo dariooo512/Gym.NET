@@ -26,7 +26,7 @@ namespace Gym.Environments.Envs.Classic {
         private const float g = 10.0f;
         private const float m = 1;
         private const float l = 1;
-        private const float episode_steps = 100;
+        private const float episode_steps = 200;
         private float current_step = 0;
 
         //properties
@@ -53,8 +53,9 @@ namespace Gym.Environments.Envs.Classic {
         public override NDArray Reset() {
             current_step = 0;
             var high = np.array(np.pi, 1);
-            state = random.uniform(-high, high, np.@double);
-            return np.array(state);
+            // state = random.uniform(-high, high, np.@double);
+             state = np.array(np.pi, 0, 0);
+             return state;
         }
 
         public override Step Step(int action) {
@@ -78,7 +79,7 @@ namespace Gym.Environments.Envs.Classic {
             state = np.array(newth, newthdot);
             var aaaaaa = get_obs(state);
 
-            // reward = (float)aaaaaa.GetDouble(0);
+            reward = (float)aaaaaa.GetDouble(0);
             
             return new Step(get_obs(state), reward, current_step > episode_steps, null);
         }

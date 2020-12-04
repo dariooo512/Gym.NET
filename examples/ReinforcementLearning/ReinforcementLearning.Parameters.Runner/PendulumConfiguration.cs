@@ -14,11 +14,11 @@ namespace ReinforcementLearning.Parameters.Runner {
 
         public IEnv EnvInstance => _env.Value;
         public int MemoryStates => 1;
-        public int MemoryCapacity => 10;
+        public int MemoryCapacity => 20;
         public int SkippedFrames => 0;
         public int ParametersLength => 3; // cos, sin, acceleration
-        public float StartingEpsilon => .9F;
-        public int Episodes => 500;
+        public float StartingEpsilon => 1F;
+        public int Episodes => 700;
         public int BatchSize => 1000;
         public int Epochs => 10;
 
